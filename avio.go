@@ -49,7 +49,7 @@ type AVIOHandlers struct {
 var handlersMap map[uintptr]*AVIOHandlers
 
 type AVIOContext struct {
-	avAVIOContext *_Ctype_AVIOContext
+	avAVIOContext *C.AVIOContext
 	buffer        *C.uchar
 }
 

@@ -14,7 +14,7 @@ import (
 )
 
 type Stream struct {
-	avStream *_Ctype_AVStream
+	avStream *C.AVStream
 	cc       *CodecCtx
 	Pts      int
 }

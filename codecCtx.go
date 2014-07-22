@@ -85,7 +85,7 @@ type SampleFmt int
 
 type CodecCtx struct {
 	codec      *Codec
-	avCodecCtx *_Ctype_AVCodecContext
+	avCodecCtx *C.AVCodecContext
 }
 
 func NewCodecCtx(codec *Codec, options ...[]*Option) *CodecCtx {
@@ -128,7 +128,7 @@ func (this *CodecCtx) CopyExtra(ist *Stream) *CodecCtx {
 
 	codec.field_order = icodec.field_order
 
-	codec.extradata = (*_Ctype_uint8_t)(C.av_mallocz((_Ctype_size_t)((C.uint64_t)(icodec.extradata_size) + C.FF_INPUT_BUFFER_PADDING_SIZE)))
+	codec.extradata = (*C.uint8_t)(C.av_mallocz((_Ctype_size_t)((C.uint64_t)(icodec.extradata_size) + C.FF_INPUT_BUFFER_PADDING_SIZE)))
 
 	C.memcpy(unsafe.Pointer(codec.extradata), unsafe.Pointer(icodec.extradata), (_Ctype_size_t)(icodec.extradata_size))
 	codec.extradata_size = icodec.extradata_size

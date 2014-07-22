@@ -31,7 +31,7 @@ import (
 var frames map[int32]*Frame = make(map[int32]*Frame, 0)
 
 type Packet struct {
-	avPacket _Ctype_AVPacket
+	avPacket C.AVPacket
 }
 
 func NewPacket() *Packet {
@@ -119,7 +119,7 @@ func (this *Packet) Dts() int {
 }
 
 func (this *Packet) SetDts(val int) {
-	this.avPacket.dts = _Ctype_int64_t(val)
+	this.avPacket.dts = C.int64_t(val)
 }
 
 func (this *Packet) Duration() int {

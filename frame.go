@@ -30,7 +30,7 @@ import (
 )
 
 type Frame struct {
-	avFrame   *_Ctype_AVFrame
+	avFrame   *C.AVFrame
 	mediaType int32
 }
 
@@ -46,7 +46,7 @@ func (this *Frame) Flush(cc *CodecCtx) (*Packet, bool, error) {
 	return encode(cc, nil, this.mediaType)
 }
 
-func encode(cc *CodecCtx, avFrame *_Ctype_AVFrame, mediaType int32) (*Packet, bool, error) {
+func encode(cc *CodecCtx, avFrame *C.AVFrame, mediaType int32) (*Packet, bool, error) {
 	var gotOutput int
 	var ret int
 
@@ -83,7 +83,7 @@ func (this *Frame) Unref() {
 }
 
 func (this *Frame) SetPts(val int) {
-	this.avFrame.pts = (_Ctype_int64_t)(val)
+	this.avFrame.pts = (C.int64_t)(val)
 }
 
 func (this *Frame) SetBestPts() {
@@ -108,7 +108,7 @@ func (this *Frame) PktPts() int {
 }
 
 func (this *Frame) SetPktPts(val int) {
-	this.avFrame.pkt_pts = (_Ctype_int64_t)(val)
+	this.avFrame.pkt_pts = (C.int64_t)(val)
 }
 
 func (this *Frame) PktDts() int {
@@ -116,7 +116,7 @@ func (this *Frame) PktDts() int {
 }
 
 func (this *Frame) SetPktDts(val int) {
-	this.avFrame.pkt_dts = (_Ctype_int64_t)(val)
+	this.avFrame.pkt_dts = (C.int64_t)(val)
 }
 
 func (this *Frame) TimeStamp() int {
@@ -161,7 +161,7 @@ func (this *Frame) SetHeight(val int) *Frame {
 func (this *Frame) ImgAlloc() error {
 	if ret := int(C.av_image_alloc(
 		(**C.uint8_t)(unsafe.Pointer(&this.avFrame.data)),
-		(*_Ctype_int)(unsafe.Pointer(&this.avFrame.linesize)),
+		(*C.int)(unsafe.Pointer(&this.avFrame.linesize)),
 		C.int(this.Width()), C.int(this.Height()), int32(this.Format()), 32)); ret < 0 {
 		return errors.New(fmt.Sprintf("Unable to allocate raw image buffer: %v", AvError(ret)))
 	}
@@ -170,7 +170,7 @@ func (this *Frame) ImgAlloc() error {
 }
 
 func (this *Frame) SetData(idx int, lineSize int, data int) *Frame {
-	C.gmf_set_frame_data(this.avFrame, C.int(idx), C.int(lineSize), (_Ctype_uint8_t)(data))
+	C.gmf_set_frame_data(this.avFrame, C.int(idx), C.int(lineSize), (C.uint8_t)(data))
 
 	return this
 }
@@ -193,7 +193,7 @@ func (this *Frame) SetNbSamples(val int) *Frame {
 }
 
 func (this *Frame) SetChannelLayout(val int) *Frame {
-	this.avFrame.channel_layout = (_Ctype_uint64_t)(val)
+	this.avFrame.channel_layout = (C.uint64_t)(val)
 	return this
 }
 
